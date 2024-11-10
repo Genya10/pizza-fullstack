@@ -15,10 +15,10 @@ export const Header: React.FC<Props> = ({className}) => {
         <Container className='flex items-center justify-around py-8'>
             {/* Left part */}
           <div className='flex items-center gap-4'>
-            <Image src='/logo.png' alt='Logo' width={35} height={35}/>
+            <Image src='/logo.png' alt='Logo' width={38} height={38}/>
             <div>
-                <h1 className='text-2xl uppercase font-black'> Next pizza</h1>                
-                <p className='text-sm text-gray-400 leading-3'>really tasty</p>
+                <h1 className='text-2xl uppercase font-black'>The best pizza</h1>                
+                <p className='text-lg text-gray-500 leading-3'>really tasty</p>
             </div>
           </div>
           {/* Right part */}
