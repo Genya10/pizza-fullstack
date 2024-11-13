@@ -2,7 +2,6 @@
 
 import React from 'react';
 import * as SliderPrimitive from '@radix-ui/react-slider';
-
 import { cn } from '@/lib/utils';
 
 type SliderProps = {
@@ -36,6 +35,7 @@ const RangeSlider = React.forwardRef(
     };
 
     return (
+        
       <SliderPrimitive.Root
         ref={ref as React.RefObject<HTMLDivElement>}
         min={min}
