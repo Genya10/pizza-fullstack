@@ -31,7 +31,7 @@ export const Filters: React.FC<Props> = ({className}) => {
             {text:'Ham', value:'1'},
             {text:'Potato', value:'2'},
             {text:'Cheese', value:'3'},
-            {text:'Becon', value:'4'},
+            {text:'Bacon', value:'4'},
             {text:'Tomato', value:'5'},
             {text:'Mozarella', value:'6'},
            ]}
