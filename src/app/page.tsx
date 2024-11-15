@@ -1,4 +1,4 @@
-import { Container, Title, TopBar, Filters } from "@/components/shared";
+import { Container, Title, TopBar, Filters, ProductCard } from "@/components/shared";
 
 export default function Home() {
   return (
@@ -17,7 +17,7 @@ export default function Home() {
         {/* List products */}
         <div className="flex-1">
           <div className="flex flex-col gap-16">
-           List products
+           <ProductCard id={0} name="Margarita" price={70} imageUrl={'https://media.istockphoto.com/id/1168754685/photo/pizza-margarita-with-cheese-top-view-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=psLRwd-hX9R-S_iYU-sihB4Jx2aUlUr26fkVrxGDfNg='}/>
           </div>
         </div>
       </div>
