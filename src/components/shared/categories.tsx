@@ -2,7 +2,6 @@
 
 import { cn } from "@/lib/utils"
 import { useCategoryStore } from "../../../store/category";
-//import React from "react"
 
 interface Props {
     className?: string
