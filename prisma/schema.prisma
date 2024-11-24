@@ -16,6 +16,9 @@ model User {
     password String
     role UserRole @default(USER)
 
+    provider String?
+    providerId String?
+
     cart Cart?
     order Order[]
     verificationCode VerificationCode?
