@@ -1,4 +1,4 @@
-import { categories } from './constants'
+import { categories, ingredients, products } from './constants'
 import { prisma } from './prisma-client'
 import { hashSync } from 'bcrypt'
 
@@ -24,6 +24,14 @@ async function up(){
 
  await prisma.category.createMany({
     data:categories
+ })
+
+ await prisma.ingredient.createMany({
+    data: ingredients,
+ })
+
+ await prisma.product.createMany({
+    data: products
  })
 }
 
