@@ -19,7 +19,7 @@ export const categories = [
 export const ingredients = [
     {
       name: 'Cheese border',
-      price: 109,
+      price: 89,
       imageUrl:
         'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png',
     },
