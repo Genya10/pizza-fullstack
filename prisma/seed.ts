@@ -123,13 +123,29 @@ const pizza2 = await prisma.product.create({
       generateProductItem({ productId: 17 }),
     ]
   })
+
+  await prisma.cart.createMany({
+    data:[
+        {
+            userId:1,
+            totalAmount:0,
+            token:'11111'
+        },
+        {
+            userId:2,
+            totalAmount:0,
+            token:'22222'
+        }
+    ]
+  })
 }
 
 async function down(){
-    await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`
-    await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`
-    await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`
-    await prisma.$executeRaw`TRUNCATE TABLE "ProductItem" RESTART IDENTITY CASCADE`
+    await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
+    await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`;
+    await prisma.$executeRaw`TRUNCATE TABLE "Ingredient" RESTART IDENTITY CASCADE`;
+    await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`;
+    await prisma.$executeRaw`TRUNCATE TABLE "ProductItem" RESTART IDENTITY CASCADE`;
 }
 
 async function main(){
