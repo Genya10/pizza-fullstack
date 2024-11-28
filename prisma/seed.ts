@@ -21,6 +21,7 @@ const generateProductItem = ({productId, pizzaType, size}: IgenerateItem) => {
         size
     } as Prisma.ProductItemUncheckedCreateInput
 }
+
 async function up(){
  await prisma.user.createMany({
     data:[
@@ -138,11 +139,25 @@ const pizza2 = await prisma.product.create({
         }
     ]
   })
+
+  await prisma.cartItem.create({
+    data:
+        {
+          productItemId:1,
+          cartId:1, 
+          quantity:2,
+          ingredients:{
+            connect:[{id:1},{id:2}, {id:3},{id:4}]
+          }  
+        }      
+  })
 }
 
 async function down(){
     await prisma.$executeRaw`TRUNCATE TABLE "User" RESTART IDENTITY CASCADE`;
     await prisma.$executeRaw`TRUNCATE TABLE "Category" RESTART IDENTITY CASCADE`;
+    await prisma.$executeRaw`TRUNCATE TABLE "Cart" RESTART IDENTITY CASCADE`;
+    await prisma.$executeRaw`TRUNCATE TABLE "CartItem" RESTART IDENTITY CASCADE`;
     await prisma.$executeRaw`TRUNCATE TABLE "Ingredient" RESTART IDENTITY CASCADE`;
     await prisma.$executeRaw`TRUNCATE TABLE "Product" RESTART IDENTITY CASCADE`;
     await prisma.$executeRaw`TRUNCATE TABLE "ProductItem" RESTART IDENTITY CASCADE`;
