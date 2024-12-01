@@ -4,6 +4,7 @@ import React from "react"
 import { Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useClickAway } from "react-use"
+import Link from "next/link"
 
 interface Props {
     className?: string
@@ -35,8 +36,17 @@ export const SearchInput: React.FC<Props> = ({className}) => {
             'absolute w-full bg-white rounded-xl py-2 top-14 shadow-md transition-all duration-200 invisible opacity-0 z-30',
             focused && 'visible opacity-100 top-12'
         )}>
-         45557689
-        </div>
+            <Link
+             className="flex items-center gap-3 w-full px-3 py-2 hover:bg-primary/30"
+             href="/product/1">
+            <img 
+              className="rounded-sm h-8 w-8 ml-3"
+              src="https://media.gettyimages.com/id/1414575281/photo/a-delicious-and-tasty-italian-pizza-margherita-with-tomatoes-and-buffalo-mozzarella.jpg?s=612x612&w=gi&k=20&c=_ZfrImbgXOOdZP7wtNL8-4fN846uEcxqNP1AtBIsOuo="
+              alt="Pizza 1"
+              />
+            <div className="px-3 py-2 hover:bg-primary/30">Pizza 1</div>
+            </Link>
+         </div>
         </div>
         </>
     )
