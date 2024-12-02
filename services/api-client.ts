@@ -1,3 +1,5 @@
-export const search = async(query: string) => {
-    
+import * as products from './products'
+
+export const Api = {
+    products
 }
