@@ -23,7 +23,19 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
   });
 
   React.useEffect(() => {
-    Api.products.search(searchQuery);
+    Api.products.search(searchQuery)
+    .then(items => {
+      console.log(items)
+      if(Array.isArray(items)) {
+        setProducts(items)
+      } else {
+        console.error("Expected array, but got:", items)
+        setProducts(items)
+      }     
+    }).catch(err => {
+      console.error("Error API:", err)
+      setProducts([])
+    })
   }, [searchQuery]);
 
   return (
@@ -54,7 +66,7 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
             focused && "visible opacity-100 top-12"
           )}
         >
-          {products.map((product) => (
+          {Array.isArray(products) && products.map((product) => (
             <Link
               key={product.id}
               className="flex items-center gap-3 w-full px-3 py-2 hover:bg-primary/30"
