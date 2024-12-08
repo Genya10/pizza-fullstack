@@ -6,23 +6,27 @@ type IngredientItem = Pick<Ingredient, 'id' | 'name'>
 
 interface ReturnProps {
     ingredients: IngredientItem[]
+    loading: boolean
 }
 
 export const useFilterIngredients = (): ReturnProps => {
     const [ingredients, setIngredients] = React.useState<ReturnProps['ingredients']>([])
+    const [loading, setLoading] = React.useState(true)
 
     React.useEffect(() => {
         async function fetchIngredients(){
             try {
+                setLoading(true)
                 const ingredients = await Api.ingredients.getAll()
-                setIngredients(
-                    ingredients.map((ingredient)=> ({id:ingredient.id, name:ingredient.name})))
+                setIngredients(ingredients)                   
             } catch (error) {
                 console.log(error)
+            } finally {
+                setLoading(false)
             }
         }
         fetchIngredients()
     },[])
 
-    return {ingredients}
+    return {ingredients, loading}
 }
