@@ -23,6 +23,18 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
   });
 
   useDebounce(
+    async () => {
+      try {
+        const response = await Api.products.search(searchQuery)
+        setProducts(response)
+      } catch (error) {
+        console.log(error)
+      }
+    }, 300,
+    [searchQuery]
+  )
+  
+  /*useDebounce(
     () => {
       if(!searchQuery.trim()) console.log('No ihfo') //// Пропускаем вызов API, если запрос пустой
       Api.products.search(searchQuery).then((items) => {
@@ -31,7 +43,7 @@ export const SearchInput: React.FC<Props> = ({ className }) => {
     },
     300,
     [searchQuery]
-  )
+  )*/
 
   const onClickItem = () => {
     setFocused(false)
