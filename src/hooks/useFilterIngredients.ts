@@ -1,6 +1,7 @@
 import { Ingredient } from "@prisma/client"
 import React from "react"
 import { Api } from "../../services/api-client"
+import { useSet } from "react-use"
 
 type IngredientItem = Pick<Ingredient, 'id' | 'name'>
 
@@ -12,6 +13,8 @@ interface ReturnProps {
 export const useFilterIngredients = (): ReturnProps => {
     const [ingredients, setIngredients] = React.useState<ReturnProps['ingredients']>([])
     const [loading, setLoading] = React.useState(true)
+
+    const [set, {toggle}] = useSet(new Set<string>([]))
 
     React.useEffect(() => {
         async function fetchIngredients(){

@@ -37,6 +37,7 @@ export const Filters: React.FC<Props> = ({className}) => {
            defaultItems={items.slice(0,6)}
            items={items}
            loading={loading}
+           onClickCheckbox={(id) => console.log(id)}
          />
         </div>
     )
