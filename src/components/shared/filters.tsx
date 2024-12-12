@@ -4,6 +4,7 @@ import React from "react";
 import { Title, FilterCheckbox, RangeSlider, CheckboxFilterGroup } from "@/components/shared";
 import { Input } from "../ui";
 import { useFilterIngredients } from "@/hooks/useFilterIngredients";
+import { useSet } from "react-use";
 
 interface Props {
     className?: string
@@ -16,6 +17,8 @@ interface PriceProps {
 
 export const Filters: React.FC<Props> = ({className}) => {
    const {ingredients, loading, onAddId, selectedIds} = useFilterIngredients()
+   const [sizes, {toggle: toggleSizes}] = useSet(new Set<string>([]))
+
    const [prices, setPrice] = React.useState<PriceProps>({priceFrom:0, priceTo: 500})
 
    const items = ingredients.map((item) => ({value: String(item.id), text:item.name}))
@@ -31,10 +34,18 @@ export const Filters: React.FC<Props> = ({className}) => {
         <div className={className}>
          <Title text="Filtration" size="sm" className="mb-5 font-bold"/>
          {/* Top checkboxes */}
-         <div className="flex flex-col gap-4">
-          <FilterCheckbox name='qwerty' text='Can be collected' value='1'/>
-          <FilterCheckbox name='asdfgh' text='New items' value='2'/>
-         </div>
+         <CheckboxFilterGroup 
+          title="Sizes"
+          name="sizes"
+          className="mb-5"
+          onClickCheckbox={toggleSizes}
+          selected={sizes}
+          items={[
+            {text:'20sm', value:'20'},
+            {text:'30sm', value:'30'},
+            {text:'40sm', value:'40'},
+          ]}
+         />
            {/* Price filter */}
           <div className="mt-5 border-y border-y-neutral-100 py-6 pb-7">
          <p className="font-bold mb-3">Price from to:</p>
@@ -65,8 +76,13 @@ export const Filters: React.FC<Props> = ({className}) => {
            items={items}
            loading={loading}
            onClickCheckbox={onAddId}
-           selectedIds ={selectedIds}
+           selected ={selectedIds}
          />
         </div>
     )
 }
+
+/*         <div className="flex flex-col gap-4">
+          <FilterCheckbox name='qwerty' text='Can be collected' value='1'/>
+          <FilterCheckbox name='asdfgh' text='New items' value='2'/>
+         </div>*/
