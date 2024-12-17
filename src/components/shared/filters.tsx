@@ -1,10 +1,11 @@
 'use client'
 
-import React from "react";
-import { Title, FilterCheckbox, RangeSlider, CheckboxFilterGroup } from "@/components/shared";
-import { Input } from "../ui";
-import { useFilterIngredients } from "@/hooks/useFilterIngredients";
-import { useSet } from "react-use";
+import React from "react"
+import { Title, FilterCheckbox, RangeSlider, CheckboxFilterGroup } from "@/components/shared"
+import { Input } from "../ui"
+import { useFilterIngredients } from "@/hooks/useFilterIngredients"
+import { useSet } from "react-use"
+import qs from 'qs'
 
 interface Props {
     className?: string
@@ -32,8 +33,15 @@ export const Filters: React.FC<Props> = ({className}) => {
     })
    }
 
+ 
+
    React.useEffect(() => {
-    console.log({prices, pizzaTypes, sizes, selectedIngredients})
+    const filters = {
+      ...prices,
+      pizzaTypes: Array.from(pizzaTypes),
+      sizes: Array.from(sizes),
+      ingredients: Array.from(selectedIngredients)
+     }
    },[prices, pizzaTypes, sizes, selectedIngredients])
 
     return (
