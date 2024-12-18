@@ -6,6 +6,7 @@ import { Input } from "../ui"
 import { useFilterIngredients } from "@/hooks/useFilterIngredients"
 import { useSet } from "react-use"
 import qs from 'qs'
+import { useRouter } from "next/navigation"
 
 interface Props {
     className?: string
@@ -17,6 +18,7 @@ interface PriceProps {
 }
 
 export const Filters: React.FC<Props> = ({className}) => {
+   const router = useRouter()
    const {ingredients, loading, onAddId, selectedIds: selectedIngredients} = useFilterIngredients()
 
    const [sizes, {toggle: toggleSizes}] = useSet(new Set<string>([]))
@@ -33,8 +35,6 @@ export const Filters: React.FC<Props> = ({className}) => {
     })
    }
 
- 
-
    React.useEffect(() => {
     const filters = {
       ...prices,
@@ -42,6 +42,10 @@ export const Filters: React.FC<Props> = ({className}) => {
       sizes: Array.from(sizes),
       ingredients: Array.from(selectedIngredients)
      }
+     const query = qs.stringify(filters, {
+      arrayFormat:'comma'
+     })
+     router.push(`?${query}`)
    },[prices, pizzaTypes, sizes, selectedIngredients])
 
     return (
