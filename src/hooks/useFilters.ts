@@ -1,4 +1,4 @@
-import { useSearchParams, useRouter } from "next/navigation"
+import { useSearchParams } from "next/navigation"
 import { useSet } from "react-use"
 import React from "react"
 
@@ -7,16 +7,29 @@ interface PriceProps {
     priceTo?: number
   }
   
-  interface QueryFilters extends PriceProps {
+interface QueryFilters extends PriceProps {
     pizzaTypes: string,
     sizes: string,
     ingredients: string
   }
 
-export const useFilters = () => {
+export interface Filters {
+ sizes: Set<string>
+ pizzaTypes:Set<string>
+ selectedIngredients:Set<string>
+ prices:PriceProps
+}
+
+interface ReturnProps extends Filters {
+  setPrices:(name:keyof PriceProps, value:number) => void
+  setPizzaTypes:(value: string) => void
+  setSizes: (value: string) => void
+  setSelectedIngredients: (value: string)=> void
+}
+
+export const useFilters = (): ReturnProps => {
     // Получаем параметры из строки запроса (URL).
     const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>
-    const router = useRouter()
     // Фильтр ингридиентов
     const [selectedIngredients, {toggle}] = useSet(new Set<string>(searchParams.get('ingredients')?.split(',')))
 
@@ -34,6 +47,14 @@ export const useFilters = () => {
         priceTo: Number(searchParams.get('priceTo')) || undefined
        })
 
+          // Функция для обновления ценового диапазона (priceFrom или priceTo).
+    const updatePrice = (name: keyof PriceProps, value: number) => {
+     setPrice({
+      ...prices,
+      [name]: value
+     })
+    }
+
        return {
         sizes,
         pizzaTypes,
@@ -41,6 +62,7 @@ export const useFilters = () => {
         prices,
         setPizzaTypes: togglePizzaTypes,
         setSizes: toggleSizes,
-        setIngredients: toggle
+        setSelectedIngredients: toggle,
+        setPrices:updatePrice
        }
     }

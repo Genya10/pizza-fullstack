@@ -3,10 +3,9 @@
 import React from "react"
 import { Title, FilterCheckbox, RangeSlider, CheckboxFilterGroup } from "@/components/shared"
 import { Input } from "../ui"
-import { useFilterIngredients } from "@/hooks/useFilterIngredients"
-import { useSet } from "react-use" //Хук из библиотеки `react-use` для работы с множествами (Set).
-import qs from 'qs' //Библиотека для работы с параметрами строки запроса.
-import { useRouter, useSearchParams } from "next/navigation" //Хуки из Next.js для работы с маршрутизатором и параметрами строки запроса.
+import { useIngredients } from "@/hooks/useIngredients"
+import { useFilters } from "@/hooks/useFilters"
+import { useQueryFilters } from "@/hooks/useQueryFilters"
 
 interface Props {
     className?: string
@@ -24,53 +23,13 @@ interface QueryFilters extends PriceProps {
 }
 
 export const Filters: React.FC<Props> = ({className}) => {
-  // Получаем параметры из строки запроса (URL).
-   const searchParams = useSearchParams() as unknown as Map<keyof QueryFilters, string>
-   const router = useRouter()
-   const {ingredients, loading, onAddId, selectedIds: selectedIngredients} = useFilterIngredients(
-      searchParams.get('ingredients')?.split(','),
-   )
-  
-   // Инициализация состояний с помощью хука useSet, который работает с множествами (Set)
-   // Если в URL уже есть параметры 'sizes', то мы их разбиваем по запятой и используем в качестве начального состояния
-   const [sizes, {toggle: toggleSizes}] = useSet(new Set<string>(searchParams.has('sizes') ? searchParams.get('sizes')?.split(',') : []))
-   const [pizzaTypes, {toggle: togglePizzaTypes}] = useSet(new Set<string>(searchParams.has('pizzaTypes') ? searchParams.get('pizzaTypes')?.split(',') : []))
+   const {ingredients, loading} = useIngredients()
+   const filters = useFilters()
 
-   const [prices, setPrice] = React.useState<PriceProps>({
-    priceFrom: Number(searchParams.get('priceFrom')) || undefined,//Если параметр существует в URL,используем его,иначе undefined.
-    priceTo: Number(searchParams.get('priceTo')) || undefined
-   })
-   
+  useQueryFilters(filters)
    // Преобразуем список ингредиентов в формат, который удобен для отображения.
    const items = ingredients.map((item) => ({value: String(item.id), text:item.name}))
   
-   // Функция для обновления ценового диапазона (priceFrom или priceTo).
-   const updatePrice = (name: keyof PriceProps, value: number) => {
-    setPrice({
-      ...prices,
-      [name]: value
-    })
-   }
-
-   console.log(searchParams, 999)
-
-   React.useEffect(() => {
-    const filters = {
-      ...prices,
-      pizzaTypes: Array.from(pizzaTypes),// Преобразуем множество pizzaTypes в массив.
-      sizes: Array.from(sizes),
-      ingredients: Array.from(selectedIngredients)
-     }
-     //Формируем строку запроса с фильтрами
-     const query = qs.stringify(filters, {
-      arrayFormat:'comma'  // Параметры массива будут разделяться запятыми в строке запроса.
-     })
-     // Обновляем URL с новыми параметрами, не перезагружая страницу (scroll: false).
-     router.push(`?${query}`,{
-      scroll: false,
-     })
-   },[prices, pizzaTypes, sizes, selectedIngredients])
-
     return (
         <div className={className}>
          <Title text="Filtration" size="sm" className="mb-5 font-bold"/>
