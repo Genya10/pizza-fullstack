@@ -50,7 +50,7 @@ export const useFilters = (): ReturnProps => {
   // Функция для обновления ценового диапазона (priceFrom или priceTo).
     const updatePrice = (name: keyof PriceProps, value: number) => {
      setPrice(prev => ({
-      ...prices,
+      ...prev,
       [name]: value
      }))
     }
