@@ -1,25 +1,12 @@
 'use client'
 
 import React from "react"
-import { Title, FilterCheckbox, RangeSlider, CheckboxFilterGroup } from "@/components/shared"
+import { Title,RangeSlider, CheckboxFilterGroup } from "@/components/shared"
 import { Input } from "../ui"
-import { useIngredients } from "@/hooks/useIngredients"
-import { useFilters } from "@/hooks/useFilters"
-import { useQueryFilters } from "@/hooks/useQueryFilters"
+import { useQueryFilters, useFilters, useIngredients } from "@/hooks/index"
 
 interface Props {
     className?: string
-}
-
-interface PriceProps {
-  priceFrom?: number
-  priceTo?: number
-}
-
-interface QueryFilters extends PriceProps {
-  pizzaTypes: string,
-  sizes: string,
-  ingredients: string
 }
 
 export const Filters: React.FC<Props> = ({className}) => {
@@ -30,6 +17,11 @@ export const Filters: React.FC<Props> = ({className}) => {
    // Преобразуем список ингредиентов в формат, который удобен для отображения.
    const items = ingredients.map((item) => ({value: String(item.id), text:item.name}))
   
+   const updatePrices = (prices: number[]) => {
+    filters.setPrices('priceFrom', prices[0])
+    filters.setPrices('priceTo', prices[1])
+   }
+
     return (
         <div className={className}>
          <Title text="Filtration" size="sm" className="mb-5 font-bold"/>
@@ -38,8 +30,8 @@ export const Filters: React.FC<Props> = ({className}) => {
           title="Type of text"
            name="pizzaTypes"
            className="mb-5"           
-           onClickCheckbox={togglePizzaTypes} // Функция для изменения состояния типа пиццы.
-           selected={pizzaTypes}  // Выбранные типы пиццы.
+           onClickCheckbox={filters.setPizzaTypes} // Функция для изменения состояния типа пиццы.
+           selected={filters.pizzaTypes}  // Выбранные типы пиццы.
            items={[ // Возможные типы пиццы.
             {text:'Thin', value:'1'},
             {text:'Traditional', value:'2'}
@@ -49,8 +41,8 @@ export const Filters: React.FC<Props> = ({className}) => {
           title="Sizes"
           name="sizes"
           className="mb-5"
-          onClickCheckbox={toggleSizes}
-          selected={sizes}
+          onClickCheckbox={filters.setSizes}
+          selected={filters.sizes}
           items={[
             {text:'20sm', value:'20'},
             {text:'30sm', value:'30'},
@@ -64,19 +56,19 @@ export const Filters: React.FC<Props> = ({className}) => {
           {/* Поля для ввода минимальной и максимальной цены */}
           <Input
             type='number' placeholder="0" min={0} max={300} 
-            value={String(prices.priceFrom)}
-            onChange={(e) => updatePrice('priceFrom', Number(e.target.value))}/>
+            value={String(filters.prices.priceFrom)}
+            onChange={(e) => filters.setPrices('priceFrom', Number(e.target.value))}/>
           <Input 
             type='number' placeholder="500" min={50} max={500} 
-            value={String(prices.priceTo)}
-            onChange={(e) => updatePrice('priceTo', Number(e.target.value))}/>
+            value={String(filters.prices.priceTo)}
+            onChange={(e) => filters.setPrices('priceTo', Number(e.target.value))}/>
           </div>
           {/* Слайдер для выбора диапазона цен */}
          <RangeSlider min={0} max={500} step={5} value={[
-          prices.priceFrom || 0,
-          prices.priceTo || 500
+          filters.prices.priceFrom || 0,
+          filters.prices.priceTo || 500
          ]}
-         onValueChange={([priceFrom, priceTo])=> setPrice({priceFrom, priceTo})}
+         onValueChange={updatePrices}
           />
          </div>
          {/* Группа чекбоксов для выбора ингредиентов */}
@@ -88,8 +80,8 @@ export const Filters: React.FC<Props> = ({className}) => {
            defaultItems={items.slice(0,6)}
            items={items}
            loading={loading}
-           onClickCheckbox={onAddId} //Функция для добавления/удаления ингредиента при клике.
-           selected ={selectedIngredients}
+           onClickCheckbox={filters.setSelectedIngredients} 
+           selected ={filters.selectedIngredients}
          />
         </div>
     )

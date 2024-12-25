@@ -47,12 +47,12 @@ export const useFilters = (): ReturnProps => {
         priceTo: Number(searchParams.get('priceTo')) || undefined
        })
 
-          // Функция для обновления ценового диапазона (priceFrom или priceTo).
+  // Функция для обновления ценового диапазона (priceFrom или priceTo).
     const updatePrice = (name: keyof PriceProps, value: number) => {
-     setPrice({
+     setPrice(prev => ({
       ...prices,
       [name]: value
-     })
+     }))
     }
 
        return {
