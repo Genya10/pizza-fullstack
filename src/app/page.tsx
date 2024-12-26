@@ -22,7 +22,7 @@ export default async function Home() {
      <Container className="mt-8">
       <Title text="All pizzas" size="lg" className="font-extrabold ml-4"/>      
      </Container>
-     <TopBar className="pl-6 pr-4"/>
+     <TopBar className="pl-6 pr-4" categories={categories.filter((category) => category.products.length > 0)}/>
      
      <Container className="pb-14 pl-6 mt-8">
       <div className="flex gap-[80px]">
@@ -33,20 +33,17 @@ export default async function Home() {
         {/* List products */}
         <div className="flex-1">
           <div className="flex flex-col gap-16">
-            
-           <ProductsGroupList 
-              title="Pizzas" 
-              items={[
-               {
-                id:1,
-                name:'Cheses-pizza',
-                imageUrl:'https://media.istockphoto.com/id/1168754685/photo/pizza-margarita-with-cheese-top-view-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=psLRwd-hX9R-S_iYU-sihB4Jx2aUlUr26fkVrxGDfNg=',
-                price: 70,
-                items:[{price:70}]
-               },
-
-            ]} 
-              categoryId={1}/>
+            {categories.map(
+              (category) => 
+                category.products.length > 0 && (
+                <ProductsGroupList 
+                  key={category.id}
+                  title={category.name} 
+                  categoryId={category.id}
+                  items={category.products} 
+                 />    
+                )
+            )}
 
         {/* <ProductsGroupList 
               title="Chisburgers" 
