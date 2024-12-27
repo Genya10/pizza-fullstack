@@ -1,5 +1,3 @@
-import { SearchInput } from "./search-input"
-
 export { Title } from "./title"
 export { Header } from "./header"
 export { Container } from "./container"
@@ -12,3 +10,4 @@ export { RangeSlider} from './range-slider'
 export { CheckboxFilterGroup } from './checkbox-filter-group'
 export { ProductCard } from './product-card'
 export { SearchInput } from './search-input'
+export { ProductImage } from './product-image'

@@ -1,9 +1,8 @@
 import { notFound } from "next/navigation"
 import { prisma } from "../../../../prisma/prisma-client"
-import { Container } from "@/components/shared"
-import { ProductImage } from "@/components/shared/product-image"
+import { Container, ProductImage, Title } from "@/components/shared"
 
-export default async function ProductPage({params: {id}}:{params:{id: string}}) {
+export default async function ProductPage({params: {id}}:{params:{id: string}}) {//?
   const product = await prisma.product.findFirst({where:{id: Number(id)}})
 
   if(!product){
@@ -12,7 +11,13 @@ export default async function ProductPage({params: {id}}:{params:{id: string}}) 
 
   return (
     <Container className="flex flex-col my-10">
-    {/* <ProductImage src={product.imageUrl}/>*/}
+      <div className="flex flex-1">
+      <ProductImage imageUrl={product.imageUrl} size={40}/>
+      </div>
+      <div className="w-[490px] bg-[#FCFCFC] p-7">
+       <Title text={product.name} size="md" className="font-extrabold mb-1"/>
+       <p className="text-gray-400">Lorem Lorem Lorem </p>      
+      </div>
     </Container>
   )
 }
