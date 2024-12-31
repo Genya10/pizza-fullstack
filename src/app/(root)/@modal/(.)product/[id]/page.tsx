@@ -3,7 +3,11 @@ import { prisma } from "../../../../../../prisma/prisma-client"
 import { Container, ProductImage, Title } from "@/components/shared"
 import { GroupVariants } from "@/components/shared/group-variants"
 
-export default async function ProductModalPage({params: {id}}:{params:{id: string}}) {//?
+export default async function ProductModalPage({params: {id}}:{params:{id: string}}){
+  return <h1>123445677</h1>
+}
+
+/*export default async function ProductModalPage({params: {id}}:{params:{id: string}}) {//?
   const product = await prisma.product.findFirst({where:{id: Number(id)}})
 
   if(!product){
@@ -40,4 +44,4 @@ export default async function ProductModalPage({params: {id}}:{params:{id: strin
       </div>
     </Container>
   )
-}
+}*/
