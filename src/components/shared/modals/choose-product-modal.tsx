@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { useRouter } from 'next/navigation'
 import { ChooseProductForm } from '../choose-product-form'
 import { ProductWithRelations } from '@/@types/prisma'
+import { ChoosePizzaForm } from '../choose-pizza-form'
 
 interface Props {
     product: ProductWithRelations
@@ -22,9 +23,9 @@ export const ChooseProductModal: React.FC<Props> = ({product, className}) => {
           className={cn(
             'p-0 w-[1060px] max-w-[1050px] min-h-[500px] bg-white overflow-hidden', className)}>
                 {isPizzaForm ? (
-                    'PizzaForm'
+                 <ChoosePizzaForm imageUrl={product.imageUrl} name={product.name} ingredients={[]}/>
                 ) : (
-                 <ChooseProductForm imageUrl={product.imageUrl} name={product.name} ingredients={[]} />   
+                 <ChooseProductForm imageUrl={product.imageUrl} name={product.name}/>   
                 )
                 }
         
