@@ -3,6 +3,8 @@ import { Title } from './title'
 import { Button } from '../ui'
 import { cn } from '@/lib/utils'
 import { PizzaImage } from './pizza-image'
+import { GroupVariants } from './group-variants'
+import { pizzaSizes } from '@/constants/pizza'
 
 interface Props {
     imageUrl: string
@@ -32,6 +34,9 @@ export const ChoosePizzaForm: React.FC<Props> = ({
 
           <div className='w-[490] bg-[#FCFCFC] p-7'>
            <Title text={name} size="md" className='font-extrabold mb-1'/>
+
+           <GroupVariants items={pizzaSizes}/>
+
            <p className='text-gray-400'>{textDetails}</p>
            <Button
              className='h-[55] px-10 text-base rounded-[18px] w-full'>
