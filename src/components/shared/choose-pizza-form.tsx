@@ -6,6 +6,7 @@ import { PizzaImage } from './pizza-image'
 import { GroupVariants } from './group-variants'
 import { pizzaSizes, pizzaTypes ,PizzaSize, PizzaType } from '@/constants/pizza'
 import { Ingredient } from '@prisma/client'
+import { IngredientItem } from './ingredient-item'
 
 interface Props {
     imageUrl: string
@@ -53,9 +54,19 @@ export const ChoosePizzaForm: React.FC<Props> = ({
               onClick={(value) => setType(Number(value) as PizzaType)}
             />
           </div>
-
-          <div className='grid grid-cols-3 gap-3'>
-
+          
+          <div className='bg-gray-50 p-5 rounded-md h-[420px] overflow-auto scrollbar mt-5'>
+           <div className='grid grid-cols-3 gap-3'>
+           {ingredients.map((ingredient) => (
+            <IngredientItem 
+              key={ingredient.id}
+              name={ingredient.name}
+              price={ingredient.price}
+              imageUrl={ingredient.imageUrl}
+              onClick={onClickAdd}
+            />
+           ))}
+           </div>
           </div>
         
            <Button
